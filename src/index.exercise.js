@@ -1,9 +1,67 @@
-// 🐨 you'll need to import React and ReactDOM up here
+import {Logo} from 'components/logo'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {Dialog} from '@reach/dialog'
+import '@reach/dialog/styles.css'
 
-// 🐨 you'll also need to import the Logo component from './components/logo'
+function LoginForm({buttonText, onSubmit}) {
+  const handleSubmit = e => {
+    e.preventDefault()
+    const {
+      target: {username, password},
+    } = e
 
-// 🐨 create an App component here and render the logo, the title ("Bookshelf"), a login button, and a register button.
-// 🐨 for fun, you can add event handlers for both buttons to alert that the button was clicked
+    onSubmit({
+      username: username.value,
+      password: password.value,
+    })
+  }
 
-// 🐨 use ReactDOM to render the <App /> to the root element
-// 💰 find the root element with: document.getElementById('root')
+  return (
+    <form name="login-form" onSubmit={handleSubmit}>
+      <label htmlFor="username">Username:</label>
+      <input type="text" id="username" name="username" />
+
+      <label htmlFor="password">Password:</label>
+      <input type="password" id="password" name="password" />
+
+      <button type="submit">{buttonText}</button>
+    </form>
+  )
+}
+
+function App() {
+  const [openDialog, setOpenDialog] = React.useState('none') // `none`, `login` or `register`
+  const handleClose = () => setOpenDialog('none')
+
+  const handleSubmit = formData => {
+    console.log('form data', formData)
+  }
+
+  return (
+    <>
+      <Dialog
+        onDismiss={handleClose}
+        isOpen={openDialog === 'login'}
+        aria-label="Login dialog"
+      >
+        <LoginForm buttonText="Login" onSubmit={handleSubmit} />
+      </Dialog>
+
+      <Dialog
+        onDismiss={handleClose}
+        isOpen={openDialog === 'register'}
+        aria-label="Register dialog"
+      >
+        <LoginForm buttonText="Register" onSubmit={handleSubmit} />
+      </Dialog>
+
+      <Logo />
+      <h1>Bookshelf</h1>
+      <button onClick={() => setOpenDialog('login')}>Login</button>
+      <button onClick={() => setOpenDialog('register')}>Register</button>
+    </>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
