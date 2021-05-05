@@ -35,10 +35,16 @@ import {Dialog as ReachDialog} from '@reach/dialog'
 //   border: '1px solid #f1f1f4',
 //   background: '#f1f2f7',
 //   padding: '8px 12px',
+const Input = styled.button
 
 // FormGroup
 //   display: 'flex',
 //   flexDirection: 'column',
+
+const FormGroup = styled.button({
+  display: 'flex',
+  flexDirection: 'column',
+})
 
 // 💰 I'm giving a few of these to you:
 const CircleButton = styled.button({
@@ -68,4 +74,4 @@ const Dialog = styled(ReachDialog)({
   },
 })
 
-export {CircleButton, Dialog}
+export {CircleButton, Dialog, FormGroup}
