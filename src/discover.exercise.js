@@ -6,9 +6,10 @@ import Tooltip from '@reach/tooltip'
 import {FaSearch} from 'react-icons/fa'
 import {Input, BookListUL, Spinner} from './components/lib'
 import {BookRow} from './components/book-row'
-// 🐨 import the client from './utils/api-client'
+import {client} from './utils/api-client'
 
 function DiscoverBooksScreen() {
+  client('books')
   // 🐨 add state for status ('idle', 'loading', or 'success'), data, and query
   const data = null // 💣 remove this, it's just here so the example doesn't explode
   // 🐨 you'll also notice that we don't want to run the search until the
