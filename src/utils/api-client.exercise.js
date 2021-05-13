@@ -1,9 +1,14 @@
 const apiURL = process.env.REACT_APP_API_URL
 
-function client(endpoint, customConfig = {}) {
+async function client(endpoint, customConfig = {}) {
+  const {token, headers: customHeaders, ...otherConfig} = customConfig
   const config = {
     method: 'GET',
-    ...customConfig,
+    headers: {
+      Authorization: token ? `Bearer ${token}` : undefined,
+      ...customHeaders,
+    },
+    ...otherConfig,
   }
 
   return window.fetch(`${apiURL}/${endpoint}`, config).then(async response => {
