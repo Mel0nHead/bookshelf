@@ -5,7 +5,6 @@ import * as React from 'react'
 import Tooltip from '@reach/tooltip'
 import {FaSearch, FaTimes} from 'react-icons/fa'
 import {useQuery} from 'react-query'
-import {useAsync} from 'utils/hooks'
 import {client} from 'utils/api-client'
 import * as colors from 'styles/colors'
 import {BookRow} from 'components/book-row'
@@ -30,11 +29,9 @@ function DiscoverBooksScreen({user}) {
   const [query, setQuery] = React.useState('')
   const [queried, setQueried] = React.useState(false)
 
-  // TODO: shouldn't load the data when query is falsy
   const {data, error, isLoading, isError, isSuccess} = useQuery({
     queryKey: ['bookSearch', {query}],
-    queryFn: (key, {query}) => {
-      if (!query) return []
+    queryFn: () => {
       return client(`books?query=${encodeURIComponent(query)}`, {
         token: user.token,
       }).then(data => data.books)
