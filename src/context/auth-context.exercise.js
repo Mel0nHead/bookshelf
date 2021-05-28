@@ -40,12 +40,16 @@ function AuthProvider(props) {
     run(userPromise)
   }, [run])
 
-  const login = form => auth.login(form).then(user => setData(user))
-  const register = form => auth.register(form).then(user => setData(user))
-  const logout = () => {
-    auth.logout()
-    setData(null)
-  }
+  const value = React.useMemo(() => {
+    const login = form => auth.login(form).then(user => setData(user))
+    const register = form => auth.register(form).then(user => setData(user))
+    const logout = () => {
+      auth.logout()
+      setData(null)
+    }
+
+    return {user, login, register, logout}
+  }, [setData, user])
 
   if (isLoading || isIdle) {
     return <FullPageSpinner />
@@ -56,7 +60,6 @@ function AuthProvider(props) {
   }
 
   if (isSuccess) {
-    const value = {user, login, register, logout}
     return <AuthContext.Provider value={value} {...props} />
   }
 
