@@ -86,3 +86,27 @@ it('when data is provided, it is stringified and the method defaults to POST', a
   await client(endpoint, {data})
   expect(request.body).toEqual(data)
 })
+
+it.only('should return rejected promise if status is 3xx', async () => {
+  let request
+  const endpoint = 'test-endpoint'
+  const data = {
+    uWot: 'm8',
+  }
+
+  server.use(
+    rest.post(
+      `${process.env.REACT_APP_API_URL}/${endpoint}`,
+      async (req, res, ctx) => {
+        request = req
+        return res(
+          ctx.status(301),
+          ctx.json({message: 'Error: Moved Permanently'}),
+        )
+      },
+    ),
+  )
+
+  await client(endpoint, {data})
+  // expect(request.body).toEqual(data)
+})
